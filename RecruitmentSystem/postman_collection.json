@@ -1,0 +1,886 @@
+{
+  "info": {
+    "name": "Recruitment System API",
+    "description": "Complete API collection for Recruitment System testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7015",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "recruiterToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "candidateToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "jobId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "companyId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('candidateToken', response.data.accessToken);",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"Test User\",\n  \"phone\": \"0123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Register a new user account"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('adminToken', response.data.accessToken);",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "        console.log('Admin login successful:', response.data.user.email);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@recruitmentsystem.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Login as admin user - Email: admin@recruitmentsystem.com, Password: admin123"
+          }
+        },
+        {
+          "name": "Login Recruiter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('recruiterToken', response.data.accessToken);",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "        console.log('Recruiter login successful:', response.data.user.email);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"login_email@vinatext.com.vn\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Login as recruiter user - Email: login_email@vinatext.com.vn, Password: password123"
+          }
+        },
+        {
+          "name": "Login Candidate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.accessToken) {",
+                  "        pm.collectionVariables.set('candidateToken', response.data.accessToken);",
+                  "        pm.collectionVariables.set('refreshToken', response.data.refreshToken);",
+                  "        pm.collectionVariables.set('userId', response.data.user.id);",
+                  "        console.log('Candidate login successful:', response.data.user.email);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"nguyenvantu@gmail.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Login as candidate user - Email: nguyenvantu@gmail.com, Password: password123"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "refresh"]
+            },
+            "description": "Refresh access token"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            },
+            "description": "Logout user"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            },
+            "description": "Get current user profile"
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Updated Test User\",\n  \"phone\": \"0987654321\",\n  \"gender\": \"male\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"bio\": \"Updated bio information\",\n  \"address\": {\n    \"city\": \"Hồ Chí Minh\",\n    \"district\": \"Quận 1\",\n    \"street\": \"Nguyễn Huệ\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            },
+            "description": "Update current user profile"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "description": "Get user by ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Get Jobs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs?page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get paginated list of jobs"
+          }
+        },
+        {
+          "name": "Get Job by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.id) {",
+                  "        pm.collectionVariables.set('jobId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/65e8f2c2b3e2a1d4f8c12345",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "65e8f2c2b3e2a1d4f8c12345"]
+            },
+            "description": "Get job details by ID"
+          }
+        },
+        {
+          "name": "Create Job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.id) {",
+                  "        pm.collectionVariables.set('jobId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recruiterToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Senior .NET Developer\",\n  \"salary\": {\n    \"min\": 20000000,\n    \"max\": 35000000,\n    \"currency\": \"VND\",\n    \"type\": \"range\"\n  },\n  \"experience\": \"3-5 năm\",\n  \"education\": \"Đại học\",\n  \"employmentType\": \"Full-time\",\n  \"workMode\": \"Hybrid\",\n  \"skills\": [\"C#\", \"ASP.NET Core\", \"SQL Server\", \"React\", \"Docker\"],\n  \"categories\": [\"Công nghệ thông tin\", \"Phát triển phần mềm\"],\n  \"jobDetails\": \"Chúng tôi đang tìm kiếm một Senior .NET Developer có kinh nghiệm để tham gia vào đội ngũ phát triển sản phẩm. Bạn sẽ làm việc với các công nghệ hiện đại và có cơ hội phát triển nghề nghiệp.\",\n  \"requirements\": \"- Tốt nghiệp Đại học chuyên ngành Công nghệ thông tin hoặc tương đương\\n- Có ít nhất 3 năm kinh nghiệm phát triển ứng dụng .NET\\n- Thành thạo C#, ASP.NET Core, Entity Framework\\n- Có kinh nghiệm với SQL Server\\n- Biết React hoặc Angular là một lợi thế\\n- Có kinh nghiệm với Docker và CI/CD\\n- Tiếng Anh giao tiếp tốt\",\n  \"benefits\": \"- Lương cạnh tranh theo năng lực\\n- Thưởng tháng 13 + thưởng hiệu suất\\n- Bảo hiểm sức khỏe cao cấp\\n- Môi trường làm việc năng động, sáng tạo\\n- Cơ hội thăng tiến và phát triển nghề nghiệp\\n- Đào tạo nâng cao kỹ năng\",\n  \"workplace\": {\n    \"address\": \"123 Nguyễn Huệ, Quận 1\",\n    \"city\": \"Hồ Chí Minh\",\n    \"district\": \"Quận 1\"\n  },\n  \"vacancies\": 2,\n  \"startDate\": \"2025-10-01\",\n  \"endDate\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs"]
+            },
+            "description": "Create a new job posting"
+          }
+        },
+        {
+          "name": "Publish Job",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recruiterToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/{{jobId}}/publish",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "{{jobId}}", "publish"]
+            },
+            "description": "Publish a job (change status from draft to published)"
+          }
+        },
+        {
+          "name": "Search Jobs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyword\": \"developer\",\n  \"city\": \"Hồ Chí Minh\",\n  \"categories\": [\"Công nghệ thông tin\"],\n  \"page\": 1,\n  \"pageSize\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "search"]
+            },
+            "description": "Search jobs with filters"
+          }
+        },
+        {
+          "name": "Apply for Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coverLetter\": \"Tôi rất quan tâm đến vị trí Senior .NET Developer tại công ty. Với 3 năm kinh nghiệm phát triển ứng dụng .NET và kiến thức vững chắc về C#, ASP.NET Core, tôi tin rằng mình có thể đóng góp tích cực vào sự phát triển của đội ngũ.\",\n  \"resumeUrl\": \"https://example.com/resumes/test_candidate_cv.pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/{{jobId}}/apply",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "{{jobId}}", "apply"]
+            },
+            "description": "Apply for a job"
+          }
+        },
+        {
+          "name": "Update Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recruiterToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Interview\",\n  \"note\": \"Mời phỏng vấn vòng 1 vào ngày 25/10/2025 lúc 14:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/applications/60c72b2f9b1d8e5a2c8f1234/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "applications", "60c72b2f9b1d8e5a2c8f1234", "status"]
+            },
+            "description": "Update application status"
+          }
+        },
+        {
+          "name": "Get Jobs by Company",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/company/68c43eccc215ac7e58aa25b0?page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "company", "68c43eccc215ac7e58aa25b0"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get jobs by company ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Company",
+      "item": [
+        {
+          "name": "Register Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.id) {",
+                  "        pm.collectionVariables.set('companyId', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Công ty TNHH ABC Technology\",\n  \"website\": \"https://abctech.com.vn\",\n  \"email\": \"contact@abctech.com.vn\",\n  \"phone\": \"028-12345678\",\n  \"employeeSize\": \"100-500\",\n  \"businessField\": \"Công nghệ thông tin\",\n  \"taxCode\": \"0123456789\",\n  \"foundedYear\": 2018,\n  \"introduction\": \"ABC Technology là công ty chuyên về phát triển phần mềm và giải pháp công nghệ. Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.\",\n  \"vision\": \"Trở thành công ty công nghệ hàng đầu Việt Nam\",\n  \"mission\": \"Cung cấp giải pháp công nghệ sáng tạo và hiệu quả\",\n  \"coreValues\": [\"Đổi mới\", \"Chất lượng\", \"Tin cậy\", \"Hợp tác\"],\n  \"location\": {\n    \"address\": \"456 Lê Văn Việt, Quận 9\",\n    \"city\": \"Hồ Chí Minh\",\n    \"district\": \"Quận 9\"\n  },\n  \"logoUrl\": \"https://abctech.com.vn/logo.png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/company/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "register"]
+            },
+            "description": "Register a new company"
+          }
+        },
+        {
+          "name": "Get Pending Companies",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/company/pending?page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "pending"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get list of pending companies (Admin only)"
+          }
+        },
+        {
+          "name": "Approve Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyId\": \"{{companyId}}\",\n  \"approve\": true,\n  \"rejectionReason\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/company/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "verify"]
+            },
+            "description": "Approve company registration (Admin only)"
+          }
+        },
+        {
+          "name": "Reject Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyId\": \"{{companyId}}\",\n  \"approve\": false,\n  \"rejectionReason\": \"Thông tin công ty không đầy đủ hoặc không chính xác\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/company/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "verify"]
+            },
+            "description": "Reject company registration (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "stats"]
+            },
+            "description": "Get dashboard statistics (Admin only)"
+          }
+        },
+        {
+          "name": "Get Applications Chart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/applications-chart",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "applications-chart"]
+            },
+            "description": "Get applications chart data (Admin only)"
+          }
+        },
+        {
+          "name": "Get Top Employers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/top-employers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "top-employers"]
+            },
+            "description": "Get top employers list (Admin only)"
+          }
+        },
+        {
+          "name": "Get Moderation Queue",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/moderation-queue",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "moderation-queue"]
+            },
+            "description": "Get moderation queue items (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test Endpoints (No Auth)",
+      "item": [
+        {
+          "name": "Test Get Jobs (No Auth)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs?page=1&pageSize=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Test getting jobs without authentication"
+          }
+        },
+        {
+          "name": "Test Get Job Details (No Auth)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/65e8f2c2b3e2a1d4f8c12345",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "65e8f2c2b3e2a1d4f8c12345"]
+            },
+            "description": "Test getting job details without authentication"
+          }
+        },
+        {
+          "name": "Test Search Jobs (No Auth)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyword\": \"developer\",\n  \"page\": 1,\n  \"pageSize\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "search"]
+            },
+            "description": "Test searching jobs without authentication"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Test Invalid Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid_token_here"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "profile"]
+            },
+            "description": "Test with invalid token"
+          }
+        },
+        {
+          "name": "Test Wrong Role Access",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "stats"]
+            },
+            "description": "Test accessing admin endpoint with candidate token"
+          }
+        },
+        {
+          "name": "Test Non-existent Job",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/507f1f77bcf86cd799439999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "507f1f77bcf86cd799439999"]
+            },
+            "description": "Test getting non-existent job"
+          }
+        },
+        {
+          "name": "Test Invalid Job Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coverLetter\": \"Test application\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/507f1f77bcf86cd799439999/apply",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "507f1f77bcf86cd799439999", "apply"]
+            },
+            "description": "Test applying for non-existent job"
+          }
+        }
+      ]
+    }
+  ]
+}

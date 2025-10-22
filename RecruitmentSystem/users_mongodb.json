@@ -1,0 +1,459 @@
+[{
+  "_id": {
+    "$oid": "507f1f77bcf86cd799439000"
+  },
+  "email": "admin@recruitmentsystem.com",
+  "phone": "0987654321",
+  "passwordHash": "$2b$10$rCfu4Pa09bZq5KzXlaoP/.hKlyBX8ed0XScAyj79ojScFA0vS.LPS",
+  "role": "admin",
+  "isVerified": true,
+  "emailVerifiedAt": {
+    "$date": "2024-01-01T00:00:00.000Z"
+  },
+  "profile": {
+    "fullName": "Admin System",
+    "avatar": "https://example.com/avatars/admin.jpg",
+    "gender": "Male",
+    "dateOfBirth": "1990-01-01",
+    "address": {
+      "city": "Hà Nội",
+      "district": "Cầu Giấy",
+      "street": "Xuân Thủy"
+    },
+    "bio": "Quản trị viên hệ thống tuyển dụng"
+  },
+  "lastLoginAt": {
+    "$date": "2025-10-22T07:32:20.801Z"
+  },
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2024-01-01T00:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-01T08:00:00.000Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0"
+},
+{
+  "_id": {
+    "$oid": "507f1f77bcf86cd799439011"
+  },
+  "email": "login_email@vinatext.com.vn",
+  "phone": "0987364998",
+  "passwordHash": "$2b$10$2YKRVsRjqy.fMGFIT5iqbuYYEgfrU2LxRtxjtikfhSm4qkSk585ka",
+  "role": "recruiter",
+  "isVerified": true,
+  "emailVerifiedAt": {
+    "$date": "2024-06-01T12:30:00.000Z"
+  },
+  "profile": {
+    "fullName": "Phạm Thị Mai",
+    "avatar": "https://example.com/avatars/phamthimai.jpg",
+    "gender": "Female",
+    "dateOfBirth": "1988-03-15",
+    "address": {
+      "city": "Hà Nội",
+      "district": "Hoàn Kiếm",
+      "street": "41A Lý Thái Tổ"
+    },
+    "bio": "Trưởng phòng Nhân sự tại Tập đoàn Dệt May Việt Nam với hơn 10 năm kinh nghiệm trong lĩnh vực tuyển dụng và quản lý nhân sự.",
+    "socialLinks": {
+      "linkedin": "https://linkedin.com/in/phamthimai",
+      "facebook": "https://facebook.com/phamthimai"
+    }
+  },
+  "companyId": "68c43eccc215ac7e58aa25b0",
+  "recruiterProfile": {
+    "position": "HR Manager",
+    "department": "Human Resources",
+    "employeeId": "VTX-HR-001",
+    "joinedDate": "2015-03-01"
+  },
+  "lastLoginAt": {
+    "$date": "2025-10-22T07:32:24.784Z"
+  },
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2024-06-01T12:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-30T08:30:00.000Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0",
+  "company": {
+    "_id": "68c43eccc215ac7e58aa25b0",
+    "name": "Tập đoàn Dệt May Việt Nam",
+    "slug": "tap-doan-det-may-viet-nam-vinatex",
+    "website": "https://vinatex.com.vn",
+    "email": "contact@vinatex.com.vn",
+    "phone": "024-39360666",
+    "employeeSize": "1000-5000",
+    "businessField": "Sản xuất",
+    "taxCode": "0100107527",
+    "foundedYear": 1995,
+    "introduction": "Tập đoàn Dệt May Việt Nam (Vinatex) là tổ hợp các công ty đa sở hữu gồm có công ty mẹ Tập đoàn Dệt May Việt Nam và các doanh nghiệp, đơn vị trực thuộc.",
+    "vision": "Trở thành tập đoàn dệt may hàng đầu khu vực Đông Nam Á vào năm 2030",
+    "mission": "Cung cấp sản phẩm dệt may chất lượng cao, thân thiện với môi trường",
+    "coreValues": [
+      "Chất lượng",
+      "Sáng tạo",
+      "Bền vững",
+      "Đoàn kết"
+    ],
+    "location": {
+      "address": "41A P. Lý Thái Tổ, Lý Thái Tổ, Hoàn Kiếm, Hà Nội 100000, Việt Nam",
+      "city": "Hà Nội",
+      "district": "Hoàn Kiếm",
+      "lat": 21.02946891352493,
+      "lng": 105.85600640741792
+    },
+    "tier": "Premium",
+    "tierExpireAt": {
+      "$date": "2026-01-01T00:00:00.000Z"
+    },
+    "logoUrl": "https://vinatex.com.vn/wp-content/uploads/2025/06/logo.png",
+    "coverUrl": "https://vinatex.com.vn/wp-content/uploads/2025/06/cover.jpg",
+    "verified": true,
+    "verifiedAt": {
+      "$date": "2024-06-15T00:00:00.000Z"
+    },
+    "isActive": true,
+    "totalJobs": 15,
+    "activeJobs": 4,
+    "followers": 1250,
+    "createdBy": "507f1f77bcf86cd799439011",
+    "createdAt": {
+      "$date": "2025-09-10T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2025-09-12T00:00:00.000Z"
+    },
+    "deletedAt": null,
+    "schemaVersion": "1.0"
+  }
+},
+{
+  "_id": {
+    "$oid": "507f1f77bcf86cd799439012"
+  },
+  "email": "nguyenvantu@gmail.com",
+  "phone": "0987777123",
+  "passwordHash": "$2b$10$KOX0rx4egrhjlbHigeEbDuMvrZj6lLUd1Cxt2Tb.2AggmIqgRBagu",
+  "role": "candidate",
+  "isVerified": true,
+  "emailVerifiedAt": {
+    "$date": "2024-06-01T12:30:00.000Z"
+  },
+  "profile": {
+    "fullName": "Nguyễn Văn Tú",
+    "avatar": "https://example.com/avatars/nguyenvantu.jpg",
+    "gender": "Male",
+    "dateOfBirth": "1995-05-20",
+    "address": {
+      "city": "Hà Nội",
+      "district": "Cầu Giấy",
+      "street": "Duy Tân"
+    },
+    "bio": "Chuyên viên HR với 3 năm kinh nghiệm trong lĩnh vực C&B và tuyển dụng. Mong muốn phát triển sự nghiệp tại các tập đoàn lớn.",
+    "socialLinks": {
+      "linkedin": "https://linkedin.com/in/nguyenvantu",
+      "facebook": "https://facebook.com/nguyenvantu"
+    }
+  },
+  "candidateProfile": {
+    "resumeUrl": "https://example.com/resumes/nguyenvantu_cv.pdf",
+    "title": "HR Specialist - C&B",
+    "yearsOfExperience": 3,
+    "currentPosition": "HR Specialist",
+    "currentCompany": "ABC Manufacturing Co., Ltd",
+    "skills": [
+      "Quản lý nhân sự",
+      "Compensation & Benefits",
+      "Luật lao động",
+      "Excel",
+      "Phân tích dữ liệu",
+      "HRIS Software"
+    ],
+    "languages": [
+      {
+        "name": "Tiếng Việt",
+        "level": "Native"
+      },
+      {
+        "name": "Tiếng Anh",
+        "level": "Intermediate"
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor",
+        "major": "Quản trị Nhân lực",
+        "school": "Đại học Kinh tế Quốc dân",
+        "startDate": "2013-09",
+        "endDate": "2017-06",
+        "graduationYear": 2017,
+        "gpa": 3.5
+      }
+    ],
+    "certifications": [
+      {
+        "name": "Certificate in Human Resource Management",
+        "issuer": "SHRM",
+        "issueDate": "2020-05",
+        "expiryDate": null,
+        "credentialId": "SHRM-CP-123456"
+      }
+    ],
+    "workExperience": [
+      {
+        "company": "ABC Manufacturing Co., Ltd",
+        "position": "HR Specialist",
+        "startDate": "2022-01",
+        "endDate": null,
+        "isCurrent": true,
+        "description": "- Quản lý chính sách C&B cho 500+ nhân viên\n- Xây dựng và triển khai chính sách lương thưởng\n- Tính toán và quyết toán BHXH, thuế TNCN\n- Tham gia tuyển dụng các vị trí chuyên môn"
+      },
+      {
+        "company": "XYZ Co., Ltd",
+        "position": "HR Officer",
+        "startDate": "2019-07",
+        "endDate": "2021-12",
+        "isCurrent": false,
+        "description": "- Hỗ trợ công tác tuyển dụng\n- Quản lý hồ sơ nhân sự\n- Tính lương và các chế độ phúc lợi"
+      }
+    ],
+    "projects": [
+      {
+        "name": "Xây dựng hệ thống đánh giá KPI mới",
+        "description": "Thiết kế và triển khai hệ thống đánh giá hiệu suất làm việc cho toàn công ty",
+        "role": "Project Lead",
+        "startDate": "2023-01",
+        "endDate": "2023-06"
+      }
+    ],
+    "expectedSalary": {
+      "min": 15000000,
+      "max": 20000000,
+      "currency": "VND",
+      "isNegotiable": true
+    },
+    "jobPreferences": {
+      "locations": [
+        "Hà Nội",
+        "Hồ Chí Minh"
+      ],
+      "workModes": [
+        "Full-time",
+        "Hybrid"
+      ],
+      "categories": [
+        "Nhân sự",
+        "Quản trị kinh doanh"
+      ],
+      "jobLevels": [
+        "Middle",
+        "Senior"
+      ],
+      "industries": [
+        "Sản xuất",
+        "FMCG",
+        "IT"
+      ]
+    },
+    "availability": "2 weeks notice",
+    "willingToRelocate": true,
+    "profileCompleteness": 95
+  },
+  "statistics": {
+    "totalApplications": 12,
+    "pendingApplications": 3,
+    "interviewingApplications": 1,
+    "rejectedApplications": 8,
+    "profileViews": 45,
+    "savedJobs": 8
+  },
+  "lastLoginAt": {
+    "$date": "2025-09-29T19:30:00.000Z"
+  },
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2024-06-01T12:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-29T19:30:00.000Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0"
+},
+{
+  "_id": {
+    "$oid": "507f1f77bcf86cd799439013"
+  },
+  "email": "nguyenvanteo@gmail.com",
+  "phone": "0987777233",
+  "passwordHash": "$2b$10$KOX0rx4egrhjlbHigeEbDuMvrZj6lLUd1Cxt2Tb.2AggmIqgRBagu",
+  "role": "candidate",
+  "isVerified": true,
+  "emailVerifiedAt": {
+    "$date": "2024-06-01T12:30:00.000Z"
+  },
+  "profile": {
+    "fullName": "Nguyễn Văn Tèo",
+    "avatar": "https://example.com/avatars/nguyenvanteo.jpg",
+    "gender": "Male",
+    "dateOfBirth": "1998-08-15",
+    "address": {
+      "city": "Hồ Chí Minh",
+      "district": "Quận 1",
+      "street": "Nguyễn Huệ"
+    },
+    "bio": "Marketing specialist với 2 năm kinh nghiệm trong Digital Marketing và Trade Marketing."
+  },
+  "candidateProfile": {
+    "resumeUrl": "https://example.com/resumes/nguyenvanteo_cv.pdf",
+    "title": "Digital Marketing Specialist",
+    "yearsOfExperience": 2,
+    "currentPosition": "Marketing Specialist",
+    "currentCompany": "Tech Startup Co.",
+    "skills": [
+      "Digital Marketing",
+      "Social Media Marketing",
+      "Content Creation",
+      "Facebook Ads",
+      "TikTok Marketing",
+      "Video Editing"
+    ],
+    "expectedSalary": {
+      "min": 12000000,
+      "max": 18000000,
+      "currency": "VND",
+      "isNegotiable": true
+    }
+  },
+  "lastLoginAt": {
+    "$date": "2025-09-28T14:20:00.000Z"
+  },
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2024-06-01T12:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-28T14:20:00.000Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0"
+},
+{
+  "_id": {
+    "$oid": "507f1f77bcf86cd799439014"
+  },
+  "email": "nguyenthihoa@gmail.com",
+  "phone": "0998742412",
+  "passwordHash": "$2b$10$KOX0rx4egrhjlbHigeEbDuMvrZj6lLUd1Cxt2Tb.2AggmIqgRBagu",
+  "role": "candidate",
+  "isVerified": true,
+  "emailVerifiedAt": {
+    "$date": "2024-06-01T12:30:00.000Z"
+  },
+  "profile": {
+    "fullName": "Nguyễn Thị Hoa",
+    "avatar": "https://example.com/avatars/nguyenthihoa.jpg",
+    "gender": "Female",
+    "dateOfBirth": "1993-12-10",
+    "address": {
+      "city": "Hồ Chí Minh",
+      "district": "Quận 3",
+      "street": "Lê Văn Sỹ"
+    },
+    "bio": "Senior Data Analyst với 4 năm kinh nghiệm trong phân tích dữ liệu và business intelligence."
+  },
+  "candidateProfile": {
+    "resumeUrl": "https://example.com/resumes/nguyenthihoa_cv.pdf",
+    "title": "Senior Data Analyst",
+    "yearsOfExperience": 4,
+    "currentPosition": "Senior Data Analyst",
+    "currentCompany": "Data Solutions Inc.",
+    "skills": [
+      "Power BI",
+      "SQL",
+      "Data Analysis",
+      "SQL Server",
+      "Tableau",
+      "Python",
+      "Machine Learning"
+    ],
+    "expectedSalary": {
+      "min": 18000000,
+      "max": 25000000,
+      "currency": "VND",
+      "isNegotiable": true
+    }
+  },
+  "lastLoginAt": {
+    "$date": "2025-09-27T16:45:00.000Z"
+  },
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2024-06-01T12:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-27T16:45:00.000Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0"
+},
+{
+  "_id": {
+    "$oid": "68f882e15a64f259f3dfdd21"
+  },
+  "email": "test@example.com",
+  "phone": "0123456789",
+  "passwordHash": "$2a$10$6lxeApKf1f6QOvvqnmk9l.K9CKd0JP9Q/CHxuIOX9RUTf9zhXEDQW",
+  "role": "candidate",
+  "isVerified": false,
+  "emailVerifiedAt": null,
+  "profile": {
+    "fullName": "Test User",
+    "avatar": null,
+    "gender": null,
+    "dateOfBirth": null,
+    "address": null,
+    "bio": null,
+    "socialLinks": null
+  },
+  "recruiterProfile": null,
+  "candidateProfile": null,
+  "statistics": {
+    "totalApplications": 0,
+    "pendingApplications": 0,
+    "interviewingApplications": 0,
+    "rejectedApplications": 0,
+    "profileViews": 0,
+    "savedJobs": 0
+  },
+  "lastLoginAt": null,
+  "loginAttempts": 0,
+  "isActive": true,
+  "isBanned": false,
+  "createdAt": {
+    "$date": "2025-10-22T07:08:16.900Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-22T07:33:53.445Z"
+  },
+  "deletedAt": null,
+  "schemaVersion": "1.0",
+  "company": null
+}]
