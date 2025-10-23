@@ -79,11 +79,7 @@ namespace API.Controllers
 
             await _jobRepository.IncrementViewsAsync(id);
 
-            // Đảm bảo job.Applicants không null trước khi trả về
-            if (job.Applicants == null)
-            {
-                job.Applicants = new List<Applicant>();
-            }
+            job.Applicants ??= new List<Applicant>();
 
             return Ok(new ApiResponse<Job>
             {

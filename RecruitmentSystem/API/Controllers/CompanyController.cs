@@ -15,6 +15,7 @@ namespace API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly ICacheService _cacheService;
+        private const string PendingCompaniesVersionKey = "pending_companies_version";
 
         public CompanyController(IUserRepository userRepository, ICacheService cacheService)
         {
@@ -59,7 +60,7 @@ namespace API.Controllers
 
                 var company = new Company
                 {
-                    Id = ObjectId.GenerateNewId().ToString(), // Generate new Id for the embedded company
+                    Id = ObjectId.GenerateNewId().ToString(),
                     Name = request.Name,
                     Website = request.Website,
                     Email = request.Email,
@@ -96,6 +97,8 @@ namespace API.Controllers
                         Message = "Đăng ký công ty thất bại"
                     });
                 }
+                
+                await _cacheService.IncrementAsync(PendingCompaniesVersionKey);
 
                 return Ok(new ApiResponse<CompanyRegistrationResponse>
                 {
@@ -126,6 +129,15 @@ namespace API.Controllers
         {
             try
             {
+                long cacheVersion = await _cacheService.IncrementAsync(PendingCompaniesVersionKey, 0)
+                var cacheKey = $"pending_companies_v{cacheVersion}_p{page}_s{pageSize}";
+
+                var cachedResponse = await _cacheService.GetAsync<ApiResponse<PagedResponse<PendingCompanyDto>>>(cacheKey);
+                if (cachedResponse != null)
+                {
+                    return Ok(cachedResponse);
+                }
+
                 var usersWithPendingCompanies = await _userRepository.GetPendingCompaniesAsync(page, pageSize);
                 
                 var pendingCompaniesDto = new List<PendingCompanyDto>();
@@ -135,7 +147,7 @@ namespace API.Controllers
                     {
                         pendingCompaniesDto.Add(new PendingCompanyDto
                         {
-                            Id = user.Company.Id, // Use the embedded company's Id
+                            Id = user.Company.Id,
                             Name = user.Company.Name,
                             Website = user.Company.Website,
                             Email = user.Company.Email,
@@ -156,9 +168,8 @@ namespace API.Controllers
                 }
 
                 var totalCount = await _userRepository.CountPendingCompaniesAsync();
-
-
-                return Ok(new ApiResponse<PagedResponse<PendingCompanyDto>>
+                
+                var response = new ApiResponse<PagedResponse<PendingCompanyDto>>
                 {
                     Success = true,
                     Message = "Lấy danh sách công ty chờ duyệt thành công",
@@ -170,7 +181,11 @@ namespace API.Controllers
                         TotalCount = (int)totalCount,
                         TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
                     }
-                });
+                };
+                
+                await _cacheService.SetAsync(cacheKey, response, TimeSpan.FromMinutes(10));
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -198,7 +213,8 @@ namespace API.Controllers
                     });
                 }
 
-                // Xóa cache nếu có
+                await _cacheService.IncrementAsync(PendingCompaniesVersionKey);
+
                 await _cacheService.RemoveAsync($"company:{request.CompanyId}");
 
                 return Ok(new ApiResponse<bool>

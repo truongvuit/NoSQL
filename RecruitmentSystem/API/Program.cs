@@ -61,12 +61,6 @@ namespace API
 
             builder.Services.AddAuthorization();
 
-            // Development Auth Middleware (chỉ cho Development)
-            if (builder.Environment.IsDevelopment())
-            {
-                builder.Services.AddScoped<DevelopmentAuthMiddleware>();
-            }
-
             // CORS
             builder.Services.AddCors(options =>
             {
@@ -90,6 +84,11 @@ namespace API
             });
            
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDevelopmentAuth();
+            }
 
             // Middleware Pipeline
             app.UseSwagger();

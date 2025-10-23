@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Downloads\\Vu\\RecruitmentSystem\\API\\API.csproj": {}
+    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\Downloads\\Vu\\RecruitmentSystem\\API\\API.csproj": {
+    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Downloads\\Vu\\RecruitmentSystem\\API\\API.csproj",
+        "projectUniqueName": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\API\\API.csproj",
+        "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\API\\API.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\API\\obj\\",
+        "outputPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,11 +32,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj": {
-                "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj"
+              "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {
+                "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj"
               },
-              "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj"
+              "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -89,14 +89,14 @@
         }
       }
     },
-    "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj": {
+    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj",
+        "projectUniqueName": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj",
+        "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\obj\\",
+        "outputPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -160,14 +160,14 @@
         }
       }
     },
-    "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Infrastructure\\obj\\",
+        "outputPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -188,8 +188,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj": {
-                "projectPath": "D:\\Downloads\\Vu\\RecruitmentSystem\\Core\\Core.csproj"
+              "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {
+                "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj"
               }
             }
           }

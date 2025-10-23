@@ -22,3 +22,16 @@ D:\Downloads\Vu\RecruitmentSystem\Core\obj\Debug\net8.0\Core.dll
 D:\Downloads\Vu\RecruitmentSystem\Core\obj\Debug\net8.0\refint\Core.dll
 D:\Downloads\Vu\RecruitmentSystem\Core\obj\Debug\net8.0\Core.pdb
 D:\Downloads\Vu\RecruitmentSystem\Core\obj\Debug\net8.0\ref\Core.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\bin\Debug\net8.0\Core.deps.json
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\bin\Debug\net8.0\Core.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\bin\Debug\net8.0\Core.pdb
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.sourcelink.json
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\refint\Core.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\Core.pdb
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\Core\obj\Debug\net8.0\ref\Core.dll
