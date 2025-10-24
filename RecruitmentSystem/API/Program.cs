@@ -8,6 +8,7 @@ using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using API.Middleware;
+using AutoMapper;
 
 namespace API
 {
@@ -74,7 +75,8 @@ namespace API
 
             // Controllers
             builder.Services.AddControllers();
-            
+            builder.Services.AddAutoMapper(typeof(Program));
+
             // Swagger
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>

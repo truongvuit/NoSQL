@@ -129,7 +129,7 @@ namespace API.Controllers
         {
             try
             {
-                long cacheVersion = await _cacheService.IncrementAsync(PendingCompaniesVersionKey, 0)
+                long cacheVersion = await _cacheService.IncrementAsync(PendingCompaniesVersionKey, 0);
                 var cacheKey = $"pending_companies_v{cacheVersion}_p{page}_s{pageSize}";
 
                 var cachedResponse = await _cacheService.GetAsync<ApiResponse<PagedResponse<PendingCompanyDto>>>(cacheKey);

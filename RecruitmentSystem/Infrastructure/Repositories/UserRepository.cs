@@ -77,7 +77,7 @@ namespace Infrastructure.Repositories
                 .CountDocumentsAsync(u => u.Company != null && u.Company.Verified == false && u.Company.IsActive == false);
         }
         
-        public async Task<bool> ApproveCompanyAsync(string companyId, bool approved, string rejectionReason = null)
+        public async Task<bool> ApproveCompanyAsync(string companyId, bool approved, string? rejectionReason = null)
         {
             var user = await _context.Users.Find(u => u.Company != null && u.Company.Id == companyId).FirstOrDefaultAsync();
 
@@ -139,6 +139,11 @@ namespace Infrastructure.Repositories
             );
 
             return await _context.Users.CountDocumentsAsync(filter);
+        }
+
+        public async Task<long> CountAsync()
+        {
+            return await _context.Users.CountDocumentsAsync(u => u.DeletedAt == null);
         }
     }
 }

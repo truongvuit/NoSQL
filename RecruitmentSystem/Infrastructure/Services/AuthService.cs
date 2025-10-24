@@ -5,11 +5,11 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Core.DTOs.Auth;
+using Core.DTOs.User;
 using Core.Interfaces;
 using Core.Models;
 using Infrastructure.Configuration;
 using BCrypt.Net;
-using RecruitmentSystem.Core.DTOs.User;
 
 namespace Infrastructure.Services
 {

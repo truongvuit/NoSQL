@@ -2,7 +2,6 @@
 using System.Text.Json;
 using StackExchange.Redis;
 using Core.Interfaces;
-using Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Services

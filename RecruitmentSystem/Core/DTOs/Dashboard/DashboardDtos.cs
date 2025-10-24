@@ -1,7 +1,6 @@
 
 namespace Core.DTOs.Dashboard
 {
-    // For GET /dashboard/stats
     public class StatCardDto
     {
         public string Value { get; set; }
@@ -16,14 +15,12 @@ namespace Core.DTOs.Dashboard
         public StatCardDto NewJobs { get; set; }
     }
 
-    // For GET /dashboard/applications-chart
     public class ApplicationsChartDataDto
     {
         public string Month { get; set; }
         public int Applications { get; set; }
     }
 
-    // For GET /dashboard/top-employers
     public class TopEmployerDto
     {
         public string Id { get; set; }
@@ -33,11 +30,10 @@ namespace Core.DTOs.Dashboard
         public string Views { get; set; }
     }
 
-    // For GET /dashboard/moderation-queue
     public class ModerationQueueItemDto
     {
         public string Id { get; set; }
-        public string Type { get; set; } // pending_jobs, reported_profiles, support_tickets, new_reviews
+        public string Type { get; set; }
         public string Primary { get; set; }
         public string Secondary { get; set; }
     }

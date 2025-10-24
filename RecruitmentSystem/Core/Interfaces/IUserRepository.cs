@@ -20,7 +20,8 @@ namespace Core.Interfaces
         Task<bool> UpdateUserRoleAsync(string userId, string role);
         Task<List<User>> GetPendingCompaniesAsync(int page, int pageSize);
         Task<long> CountPendingCompaniesAsync();
-        Task<bool> ApproveCompanyAsync(string companyId, bool approved, string rejectionReason = null);
+        Task<bool> ApproveCompanyAsync(string companyId, bool approved, string? rejectionReason = null);
         Task<long> CountUsersByRoleInRangeAsync(string role, DateTime start, DateTime end);
+        Task<long> CountAsync();
     }
 }

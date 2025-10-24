@@ -176,3 +176,5 @@ D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\refint\API.dll
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\API.pdb
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\ref\API.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\bin\Debug\net8.0\AutoMapper.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
