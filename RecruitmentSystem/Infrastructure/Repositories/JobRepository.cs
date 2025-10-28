@@ -33,6 +33,13 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<long> CountAllAsync()
+        {
+            return await _context.Jobs
+                .Find(j => j.DeletedAt == null)
+                .CountDocumentsAsync();
+        }
+
         public async Task<Job> CreateAsync(Job job)
         {
             await _context.Jobs.InsertOneAsync(job);
@@ -90,6 +97,40 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<long> CountSearchJobsAsync(string keyword, string city, List<string> categories)
+        {
+            var filterBuilder = Builders<Job>.Filter;
+            var filters = new List<FilterDefinition<Job>>
+            {
+                filterBuilder.Eq(j => j.DeletedAt, null),
+                filterBuilder.Eq(j => j.Status, "published")
+            };
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                filters.Add(filterBuilder.Or(
+                    filterBuilder.Regex(j => j.Title, new MongoDB.Bson.BsonRegularExpression(keyword, "i")),
+                    filterBuilder.AnyIn(j => j.Keywords, new[] { keyword })
+                ));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                filters.Add(filterBuilder.Eq(j => j.Workplace.City, city));
+            }
+
+            if (categories != null && categories.Any())
+            {
+                filters.Add(filterBuilder.AnyIn(j => j.Categories, categories));
+            }
+
+            var filter = filterBuilder.And(filters);
+
+            return await _context.Jobs
+                .Find(filter)
+                .CountDocumentsAsync();
+        }
+
         public async Task<bool> AddApplicantAsync(string jobId, Applicant applicant)
         {
             var update = Builders<Job>.Update
@@ -139,6 +180,13 @@ namespace Infrastructure.Repositories
                 .Skip((page - 1) * pageSize)
                 .Limit(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<long> CountJobsByCompanyAsync(string companyId)
+        {
+            return await _context.Jobs
+                .Find(j => j.CompanyId == companyId && j.DeletedAt == null)
+                .CountDocumentsAsync();
         }
 
         public async Task<long> CountJobsInRangeAsync(DateTime start, DateTime end)

@@ -45,13 +45,16 @@ namespace API.Controllers
             var jobs = await _jobRepository.GetAllAsync(page, pageSize);
             var jobDtos = jobs.Select(MapToJobDto).ToList();
 
+            // Accurate total count across all non-deleted jobs
+            var totalCount = await _jobRepository.CountAllAsync();
+
             var response = new PagedResponse<JobDto>
             {
                 Items = jobDtos,
-                TotalCount = jobDtos.Count,
+                TotalCount = (int)totalCount,
                 Page = page,
                 PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(jobDtos.Count / (double)pageSize)
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
             await _cacheService.SetAsync(cacheKey, response, TimeSpan.FromMinutes(5));
@@ -211,13 +214,19 @@ namespace API.Controllers
 
             var jobDtos = jobs.Select(MapToJobDto).ToList();
 
+            var totalCount = await _jobRepository.CountSearchJobsAsync(
+                request.Keyword,
+                request.City,
+                request.Categories
+            );
+
             var response = new PagedResponse<JobDto>
             {
                 Items = jobDtos,
-                TotalCount = jobDtos.Count,
+                TotalCount = (int)totalCount,
                 Page = request.Page,
                 PageSize = request.PageSize,
-                TotalPages = (int)Math.Ceiling(jobDtos.Count / (double)request.PageSize)
+                TotalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize)
             };
 
             return Ok(new ApiResponse<PagedResponse<JobDto>>
@@ -374,13 +383,15 @@ namespace API.Controllers
             var jobs = await _jobRepository.GetJobsByCompanyAsync(companyId, page, pageSize);
             var jobDtos = jobs.Select(MapToJobDto).ToList();
 
+            var totalCount = await _jobRepository.CountJobsByCompanyAsync(companyId);
+
             var response = new PagedResponse<JobDto>
             {
                 Items = jobDtos,
-                TotalCount = jobDtos.Count,
+                TotalCount = (int)totalCount,
                 Page = page,
                 PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(jobDtos.Count / (double)pageSize)
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
 
             return Ok(new ApiResponse<PagedResponse<JobDto>>
