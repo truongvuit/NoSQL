@@ -91,4 +91,54 @@ namespace Core.DTOs.Company
         public string FullName { get; set; }
         public string Phone { get; set; }
     }
+
+    public class UpdateCompanyRequest
+    {
+        public string? Name { get; set; }
+        public string? Website { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+        public string? EmployeeSize { get; set; }
+        public string? BusinessField { get; set; }
+        public string? TaxCode { get; set; }
+        public int? FoundedYear { get; set; }
+        public string? Introduction { get; set; }
+        public string? Vision { get; set; }
+        public string? Mission { get; set; }
+        public List<string>? CoreValues { get; set; }
+        public CompanyLocationDto? Location { get; set; }
+        public string? LogoUrl { get; set; }
+        public string? CoverUrl { get; set; }
+        public List<string>? Images { get; set; }
+        public List<string>? Benefits { get; set; }
+    }
+
+    public class CompanyDetailDto
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Slug { get; set; }
+        public string Website { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string EmployeeSize { get; set; }
+        public string BusinessField { get; set; }
+        public string TaxCode { get; set; }
+        public int FoundedYear { get; set; }
+        public string Introduction { get; set; }
+        public string Vision { get; set; }
+        public string Mission { get; set; }
+        public List<string> CoreValues { get; set; }
+        public CompanyLocationDto Location { get; set; }
+        public string Tier { get; set; }
+        public bool Verified { get; set; }
+        public DateTime? VerifiedAt { get; set; }
+        public bool IsActive { get; set; }
+        public string LogoUrl { get; set; }
+        public string CoverUrl { get; set; }
+        public List<string> Images { get; set; }
+        public List<string> Benefits { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
 }

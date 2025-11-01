@@ -145,5 +145,87 @@ namespace Infrastructure.Repositories
         {
             return await _context.Users.CountDocumentsAsync(u => u.DeletedAt == null);
         }
+
+        public async Task<List<Company>> GetAllCompaniesAsync(int page, int pageSize, bool? verified = null)
+        {
+            var filterBuilder = Builders<User>.Filter;
+            var filters = new List<FilterDefinition<User>>
+            {
+                filterBuilder.Ne(u => u.Company, null),
+                filterBuilder.Eq(u => u.DeletedAt, null)
+            };
+
+            if (verified.HasValue)
+            {
+                filters.Add(filterBuilder.Eq("company.verified", verified.Value));
+            }
+
+            var filter = filterBuilder.And(filters);
+
+            var users = await _context.Users
+                .Find(filter)
+                .SortByDescending(u => u.Company.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
+
+            return users.Select(u => u.Company).ToList();
+        }
+
+        public async Task<long> CountCompaniesAsync(bool? verified = null)
+        {
+            var filterBuilder = Builders<User>.Filter;
+            var filters = new List<FilterDefinition<User>>
+            {
+                filterBuilder.Ne(u => u.Company, null),
+                filterBuilder.Eq(u => u.DeletedAt, null)
+            };
+
+            if (verified.HasValue)
+            {
+                filters.Add(filterBuilder.Eq("company.verified", verified.Value));
+            }
+
+            var filter = filterBuilder.And(filters);
+            return await _context.Users.CountDocumentsAsync(filter);
+        }
+
+        public async Task<Company?> GetCompanyByIdAsync(string companyId)
+        {
+            var user = await _context.Users
+                .Find(u => u.Company != null && u.Company.Id == companyId && u.DeletedAt == null)
+                .FirstOrDefaultAsync();
+
+            return user?.Company;
+        }
+
+        public async Task<bool> UpdateCompanyAsync(string companyId, Company company)
+        {
+            var user = await _context.Users
+                .Find(u => u.Company != null && u.Company.Id == companyId && u.DeletedAt == null)
+                .FirstOrDefaultAsync();
+
+            if (user == null) return false;
+
+            company.UpdatedAt = DateTime.UtcNow;
+            user.Company = company;
+
+            return await UpdateAsync(user.Id, user);
+        }
+
+        public async Task<bool> DeleteCompanyAsync(string companyId)
+        {
+            var user = await _context.Users
+                .Find(u => u.Company != null && u.Company.Id == companyId && u.DeletedAt == null)
+                .FirstOrDefaultAsync();
+
+            if (user == null) return false;
+
+            // Soft delete: set company to null and downgrade user role
+            user.Company = null;
+            user.Role = "candidate";
+
+            return await UpdateAsync(user.Id, user);
+        }
     }
 }

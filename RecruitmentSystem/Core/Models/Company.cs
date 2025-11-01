@@ -129,6 +129,9 @@ namespace Core.Models
         [BsonElement("district")]
         public string District { get; set; }
 
+        [BsonElement("country")]
+        public string Country { get; set; } = "Việt Nam";
+
         [BsonElement("lat")]
         public double Lat { get; set; }
 

@@ -23,5 +23,10 @@ namespace Core.Interfaces
         Task<bool> ApproveCompanyAsync(string companyId, bool approved, string? rejectionReason = null);
         Task<long> CountUsersByRoleInRangeAsync(string role, DateTime start, DateTime end);
         Task<long> CountAsync();
+        Task<List<Company>> GetAllCompaniesAsync(int page, int pageSize, bool? verified = null);
+        Task<long> CountCompaniesAsync(bool? verified = null);
+        Task<Company?> GetCompanyByIdAsync(string companyId);
+        Task<bool> UpdateCompanyAsync(string companyId, Company company);
+        Task<bool> DeleteCompanyAsync(string companyId);
     }
 }

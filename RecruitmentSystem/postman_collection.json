@@ -69,6 +69,9 @@
                   "        pm.collectionVariables.set(\"candidateToken\", jsonData.data.accessToken);",
                   "        pm.collectionVariables.set(\"refreshToken\", jsonData.data.refreshToken);",
                   "    }",
+                  "    if (jsonData.data && jsonData.data.user && jsonData.data.user.id) {",
+                  "        pm.collectionVariables.set(\"userId\", jsonData.data.user.id);",
+                  "    }",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -709,9 +712,15 @@
                 "exec": [
                   "if (pm.response.code === 200) {",
                   "    var jsonData = pm.response.json();",
-                  "    if (jsonData.data && jsonData.data.companyId) {",
-                  "        pm.collectionVariables.set(\"companyId\", jsonData.data.companyId);",
+                  "    console.log('Response:', JSON.stringify(jsonData, null, 2));",
+                  "    if (jsonData.data && jsonData.data.id) {",
+                  "        pm.collectionVariables.set(\"companyId\", jsonData.data.id);",
+                  "        console.log('CompanyId saved:', jsonData.data.id);",
+                  "    } else {",
+                  "        console.log('Warning: No companyId found in response');",
                   "    }",
+                  "} else {",
+                  "    console.log('Error:', pm.response.code, pm.response.text());",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -824,6 +833,148 @@
               "path": ["api", "company", "verify"]
             },
             "description": "Reject a company registration with reason (Admin only)"
+          }
+        },
+        {
+          "name": "Get All Companies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.companies && jsonData.data.companies.length > 0) {",
+                  "        pm.collectionVariables.set(\"companyId\", jsonData.data.companies[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/company?page=1&pageSize=10&verified=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "verified",
+                  "value": "true",
+                  "description": "Optional: filter by verified status (true/false)"
+                }
+              ]
+            },
+            "description": "Get all companies with pagination and optional verified filter"
+          }
+        },
+        {
+          "name": "Get Company by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/company/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "{{companyId}}"]
+            },
+            "description": "Get detailed information about a specific company"
+          }
+        },
+        {
+          "name": "Update Company (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Công ty TNHH Công Nghệ ABC\",\n  \"website\": \"https://abctech.com.vn\",\n  \"email\": \"info@abctech.com.vn\",\n  \"phone\": \"028-12345678\",\n  \"employeeSize\": \"100-200\",\n  \"businessField\": \"Phát triển phần mềm\",\n  \"introduction\": \"ABC Technology là công ty hàng đầu về giải pháp phần mềm doanh nghiệp tại Việt Nam\",\n  \"vision\": \"Dẫn đầu trong lĩnh vực chuyển đổi số\",\n  \"mission\": \"Giúp doanh nghiệp tối ưu hóa quy trình với công nghệ tiên tiến\",\n  \"coreValues\": [\"Đổi mới\", \"Chất lượng\", \"Tận tâm\", \"Hợp tác\"],\n  \"location\": {\n    \"address\": \"456 Lê Lai, Quận 1\",\n    \"city\": \"Hồ Chí Minh\",\n    \"district\": \"Quận 1\",\n    \"country\": \"Việt Nam\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/company/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "{{companyId}}"]
+            },
+            "description": "Update company information (Admin or Recruiter of the company)"
+          }
+        },
+        {
+          "name": "Update Company (Recruiter)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recruiterToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"028-99887766\",\n  \"introduction\": \"Cập nhật mô tả công ty với thông tin mới nhất về sản phẩm và dịch vụ của chúng tôi\",\n  \"benefits\": [\"Bảo hiểm đầy đủ\", \"Du lịch hàng năm\", \"Thưởng hiệu suất\", \"Đào tạo chuyên nghiệp\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/company/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "{{companyId}}"]
+            },
+            "description": "Update own company information (Recruiter can only update their own company)"
+          }
+        },
+        {
+          "name": "Delete Company (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/company/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "company", "{{companyId}}"]
+            },
+            "description": "Delete a company (soft delete - sets company to null and role to candidate). Admin only."
           }
         }
       ]
