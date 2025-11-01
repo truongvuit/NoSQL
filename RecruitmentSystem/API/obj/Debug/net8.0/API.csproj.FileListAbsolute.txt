@@ -178,3 +178,4 @@ D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\API.genruntimec
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\obj\Debug\net8.0\ref\API.dll
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\bin\Debug\net8.0\AutoMapper.dll
 D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Documents\GitHub\NoSQL\RecruitmentSystem\API\bin\Debug\net8.0\API.staticwebassets.runtime.json

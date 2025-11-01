@@ -26,4 +26,13 @@ namespace Infrastructure.Configuration
         public string ConnectionString { get; set; }
         public string InstanceName { get; set; }
     }
+
+    public class FileUploadSettings
+    {
+        public string UploadPath { get; set; } = "wwwroot/uploads";
+        public long MaxFileSizeInBytes { get; set; } = 10485760; // 10MB
+        public List<string> AllowedImageExtensions { get; set; } = new() { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        public List<string> AllowedDocumentExtensions { get; set; } = new() { ".pdf", ".doc", ".docx" };
+        public string BaseUrl { get; set; } = "https://localhost:7015";
+    }
 }

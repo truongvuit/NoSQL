@@ -980,7 +980,122 @@
       ]
     },
     {
-      "name": "6. Dashboard (Admin)",
+      "name": "6. File Upload",
+      "item": [
+        {
+          "name": "Upload CV",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/cv",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "cv"]
+            },
+            "description": "Upload CV file (PDF, DOC, DOCX) - Max 10MB"
+          }
+        },
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "image"]
+            },
+            "description": "Upload image (JPG, PNG, GIF, WEBP) - Max 10MB"
+          }
+        },
+        {
+          "name": "Delete File",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/cv/filename.pdf",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "cv", "filename.pdf"]
+            },
+            "description": "Delete uploaded file (Admin or Recruiter only)"
+          }
+        },
+        {
+          "name": "Validate File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{candidateToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/validate?fileType=cv&fileSize=1048576&fileName=resume.pdf",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "validate"],
+              "query": [
+                {
+                  "key": "fileType",
+                  "value": "cv"
+                },
+                {
+                  "key": "fileSize",
+                  "value": "1048576"
+                },
+                {
+                  "key": "fileName",
+                  "value": "resume.pdf"
+                }
+              ]
+            },
+            "description": "Validate file before upload"
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Dashboard (Admin)",
       "item": [
         {
           "name": "Get Dashboard Stats",

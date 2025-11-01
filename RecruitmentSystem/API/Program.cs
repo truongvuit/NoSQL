@@ -26,6 +26,8 @@ namespace API
                 builder.Configuration.GetSection("JwtSettings"));
             builder.Services.Configure<RedisSettings>(
                 builder.Configuration.GetSection("RedisSettings"));
+            builder.Services.Configure<FileUploadSettings>(
+                builder.Configuration.GetSection("FileUploadSettings"));
 
             // MongoDB
             builder.Services.AddSingleton<MongoDbContext>();
@@ -37,6 +39,7 @@ namespace API
             // Services
             builder.Services.AddSingleton<ICacheService, RedisCacheService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IFileService, FileService>();
 
             // JWT Authentication
             var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
@@ -97,6 +100,9 @@ namespace API
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
+
+            // Enable static files serving for uploads
+            app.UseStaticFiles();
 
             app.UseCors("AllowAll");
 
