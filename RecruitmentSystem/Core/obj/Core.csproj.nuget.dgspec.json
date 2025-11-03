@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {}
+    "d:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {
+    "d:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
+        "projectUniqueName": "d:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
+        "projectPath": "d:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\obj\\",
+        "outputPath": "d:\\Documents\\GitHub\\NoSQL\\RecruitmentSystem\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

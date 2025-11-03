@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -22,10 +23,12 @@ namespace API.Controllers
 
         [HttpPost("cv")]
         [Authorize]
-        public async Task<ActionResult<ApiResponse<FileUploadResponse>>> UploadCV(IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ApiResponse<FileUploadResponse>>> UploadCV([FromForm] FileUploadRequest request)
         {
             try
             {
+                var file = request?.File;
                 if (file == null || file.Length == 0)
                 {
                     return BadRequest(new ApiResponse<FileUploadResponse>
@@ -65,10 +68,12 @@ namespace API.Controllers
 
         [HttpPost("image")]
         [Authorize]
-        public async Task<ActionResult<ApiResponse<FileUploadResponse>>> UploadImage(IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ApiResponse<FileUploadResponse>>> UploadImage([FromForm] FileUploadRequest request)
         {
             try
             {
+                var file = request?.File;
                 if (file == null || file.Length == 0)
                 {
                     return BadRequest(new ApiResponse<FileUploadResponse>
@@ -172,6 +177,18 @@ namespace API.Controllers
                     Message = ex.Message
                 });
             }
+        }
+
+        [HttpGet("ping")]
+        [AllowAnonymous]
+        public ActionResult<ApiResponse<object>> Ping()
+        {
+            return Ok(new ApiResponse<object>
+            {
+                Success = true,
+                Message = "Upload service đã sẵn sàng",
+                Data = new { di = _fileService != null }
+            });
         }
     }
 }

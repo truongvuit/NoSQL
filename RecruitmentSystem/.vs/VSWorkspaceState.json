@@ -1,12 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Core",
+    "\\API",
+    "\\API\\Controllers",
     "\\Core\\DTOs",
     "\\Core\\DTOs\\Admin",
     "\\Core\\DTOs\\Job",
     "\\Core\\DTOs\\User"
   ],
-  "SelectedNode": "\\Core\\DTOs\\User\\UserDto.cs",
+  "SelectedNode": "\\API\\Controllers\\UploadController.cs",
   "PreviewInSolutionExplorer": false
 }

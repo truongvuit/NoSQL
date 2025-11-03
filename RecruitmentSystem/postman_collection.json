@@ -984,6 +984,31 @@
       "item": [
         {
           "name": "Upload CV",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Upload success flag is true', function () { pm.expect(json.success).to.be.true; });",
+                  "if (json && json.data) {",
+                  "  const data = json.data || {};",
+                  "  const path = data.filePath || '';",
+                  "  const parts = path.split('/');",
+                  "  const inferredType = parts.length >= 3 ? parts[1] : (data.contentType && data.contentType.startsWith('image/') ? 'image' : 'cv');",
+                  "  const inferredName = parts.length >= 3 ? parts[2] : (data.fileName || '');",
+                  "  pm.collectionVariables.set('lastUploadedFileUrl', data.fileUrl);",
+                  "  pm.collectionVariables.set('lastUploadedFilePath', path);",
+                  "  pm.collectionVariables.set('lastUploadedFileName', inferredName);",
+                  "  pm.collectionVariables.set('lastUploadedFileType', inferredType);",
+                  "  console.log('Saved upload vars (collection):', { inferredType, inferredName, path });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -1013,6 +1038,31 @@
         },
         {
           "name": "Upload Image",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Upload success flag is true', function () { pm.expect(json.success).to.be.true; });",
+                  "if (json && json.data) {",
+                  "  const data = json.data || {};",
+                  "  const path = data.filePath || '';",
+                  "  const parts = path.split('/');",
+                  "  const inferredType = parts.length >= 3 ? parts[1] : (data.contentType && data.contentType.startsWith('image/') ? 'image' : 'cv');",
+                  "  const inferredName = parts.length >= 3 ? parts[2] : (data.fileName || '');",
+                  "  pm.collectionVariables.set('lastUploadedFileUrl', data.fileUrl);",
+                  "  pm.collectionVariables.set('lastUploadedFilePath', path);",
+                  "  pm.collectionVariables.set('lastUploadedFileName', inferredName);",
+                  "  pm.collectionVariables.set('lastUploadedFileType', inferredType);",
+                  "  console.log('Saved upload vars (collection):', { inferredType, inferredName, path });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -1042,6 +1092,29 @@
         },
         {
           "name": "Delete File",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let type = pm.collectionVariables.get('lastUploadedFileType');",
+                  "let name = pm.collectionVariables.get('lastUploadedFileName');",
+                  "if (!type || !name) {",
+                  "  const p = pm.collectionVariables.get('lastUploadedFilePath') || '';",
+                  "  const parts = p.split('/');",
+                  "  if (parts.length >= 3) {",
+                  "    type = parts[1];",
+                  "    name = parts[2];",
+                  "    pm.collectionVariables.set('lastUploadedFileType', type);",
+                  "    pm.collectionVariables.set('lastUploadedFileName', name);",
+                  "  }",
+                  "}",
+                  "console.log('Deleting file with vars', { type, name });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [
@@ -1052,11 +1125,38 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/upload/cv/filename.pdf",
+              "raw": "{{baseUrl}}/api/upload/{{lastUploadedFileType}}/{{lastUploadedFileName}}",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "upload", "cv", "filename.pdf"]
+              "path": ["api", "upload", "{{lastUploadedFileType}}", "{{lastUploadedFileName}}"]
             },
             "description": "Delete uploaded file (Admin or Recruiter only)"
+          }
+        },
+        {
+          "name": "Ping Upload (DI)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Service reports ready', function () { pm.expect(json.success).to.be.true; });",
+                  "pm.test('DI resolved IFileService', function () { pm.expect(json.data && json.data.di).to.eql(true); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/ping",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "ping"]
+            },
+            "description": "Quick health check to verify DI and UploadController readiness"
           }
         },
         {
