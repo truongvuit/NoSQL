@@ -29,7 +29,16 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<ApiResponse<PagedResponse<JobDto>>>> GetJobs([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var cacheKey = $"jobs:page:{page}:size:{pageSize}";
+            // Lọc hiển thị theo vai trò và cache theo "người xem":
+            // - public: chỉ thấy job đã publish
+            // - recruiter: thấy tất cả job đã publish + job draft do mình tạo
+            // - admin: thấy tất cả
+            // Cache key dạng: jobs:{viewerKey}:page:{page}:size:{pageSize}
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "public";
+            var viewerKey = role == "admin" ? "admin" : role == "recruiter" ? $"recruiter:{userId}" : "public";
+
+            var cacheKey = $"jobs:{viewerKey}:page:{page}:size:{pageSize}";
             var cachedJobs = await _cacheService.GetAsync<PagedResponse<JobDto>>(cacheKey);
 
             if (cachedJobs != null)
@@ -42,11 +51,10 @@ namespace API.Controllers
                 });
             }
 
-            var jobs = await _jobRepository.GetAllAsync(page, pageSize);
+            var jobs = await _jobRepository.GetAllVisibleAsync(userId, role, page, pageSize);
             var jobDtos = jobs.Select(MapToJobDto).ToList();
 
-            // Accurate total count across all non-deleted jobs
-            var totalCount = await _jobRepository.CountAllAsync();
+            var totalCount = await _jobRepository.CountAllVisibleAsync(userId, role);
 
             var response = new PagedResponse<JobDto>
             {
@@ -70,8 +78,31 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ApiResponse<Job>>> GetJobById(string id)
         {
+            // Quy tắc hiển thị theo vai trò khi xem chi tiết:
+            // - admin: luôn xem được
+            // - recruiter: xem được nếu job đã publish hoặc là job do mình tạo
+            // - public/candidate: chỉ xem được nếu job đã publish
             var job = await _jobRepository.GetByIdAsync(id);
             if (job == null)
+            {
+                return NotFound(new ApiResponse<Job>
+                {
+                    Success = false,
+                    Message = "Không tìm thấy công việc"
+                });
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "public";
+
+            var visible = role switch
+            {
+                "admin" => true,
+                "recruiter" => job.Status == "published" || job.CreatedBy == userId,
+                _ => job.Status == "published"
+            };
+
+            if (!visible)
             {
                 return NotFound(new ApiResponse<Job>
                 {
@@ -154,6 +185,13 @@ namespace API.Controllers
 
             var created = await _jobRepository.CreateAsync(job);
 
+            // Invalidate cache: chỉ cần xóa cache theo scope của recruiter tạo job,
+            // job ở trạng thái draft nên public/admin chưa bị ảnh hưởng
+            for (int i = 1; i <= 10; i++)
+            {
+                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
+            }
+
             return CreatedAtAction(nameof(GetJobById), new { id = created.Id }, new ApiResponse<Job>
             {
                 Success = true,
@@ -162,8 +200,115 @@ namespace API.Controllers
             });
         }
 
+        [HttpPut("{id}")]
+        [Authorize(Roles = "recruiter,admin")]
+        public async Task<ActionResult<ApiResponse<Job>>> UpdateJob(string id, [FromBody] UpdateJobRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var job = await _jobRepository.GetByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ApiResponse<Job> { Success = false, Message = "Không tìm thấy công việc" });
+            }
+
+            // Recruiter chỉ được cập nhật job của chính mình
+            if (role == "recruiter" && job.CreatedBy != userId)
+            {
+                return Forbid();
+            }
+
+            // Map nullable fields
+            if (!string.IsNullOrEmpty(request.Title)) job.Title = request.Title;
+            if (request.Salary != null)
+            {
+                job.Salary ??= new Salary();
+                job.Salary.Min = request.Salary.Min;
+                job.Salary.Max = request.Salary.Max;
+                job.Salary.Currency = request.Salary.Currency;
+                job.Salary.Type = request.Salary.Type;
+            }
+            if (!string.IsNullOrEmpty(request.Experience)) job.Experience = request.Experience;
+            if (!string.IsNullOrEmpty(request.Education)) job.Education = request.Education;
+            if (!string.IsNullOrEmpty(request.EmploymentType)) job.EmploymentType = request.EmploymentType;
+            if (!string.IsNullOrEmpty(request.WorkMode)) job.WorkMode = request.WorkMode;
+            if (request.Skills != null) job.Skills = request.Skills;
+            if (request.Categories != null) job.Categories = request.Categories;
+            if (!string.IsNullOrEmpty(request.JobDetails)) job.JobDetails = request.JobDetails;
+            if (!string.IsNullOrEmpty(request.Requirements)) job.Requirements = request.Requirements;
+            if (!string.IsNullOrEmpty(request.Benefits)) job.Benefits = request.Benefits;
+            if (request.Workplace != null)
+            {
+                job.Workplace ??= new Workplace();
+                job.Workplace.Address = request.Workplace.Address;
+                job.Workplace.City = request.Workplace.City;
+                job.Workplace.District = request.Workplace.District;
+            }
+            if (request.Vacancies.HasValue) job.Vacancies = request.Vacancies.Value;
+            if (!string.IsNullOrEmpty(request.StartDate)) job.StartDate = request.StartDate;
+            if (!string.IsNullOrEmpty(request.EndDate)) job.EndDate = request.EndDate;
+
+            var updated = await _jobRepository.UpdateAsync(id, job);
+            if (!updated)
+            {
+                return BadRequest(new ApiResponse<Job> { Success = false, Message = "Cập nhật công việc thất bại" });
+            }
+
+            // Invalidate cache trên tất cả scope vì nội dung job có thể ảnh hưởng tới public/admin
+            for (int i = 1; i <= 10; i++)
+            {
+                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
+            }
+
+            return Ok(new ApiResponse<Job>
+            {
+                Success = true,
+                Message = "Cập nhật công việc thành công",
+                Data = job
+            });
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "recruiter,admin")]
+        public async Task<ActionResult<ApiResponse<bool>>> DeleteJob(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var job = await _jobRepository.GetByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ApiResponse<bool> { Success = false, Message = "Không tìm thấy công việc" });
+            }
+
+            // Recruiter chỉ được xóa (soft-delete) job mình tạo
+            if (role == "recruiter" && job.CreatedBy != userId)
+            {
+                return Forbid();
+            }
+
+            var deleted = await _jobRepository.DeleteAsync(id);
+            if (!deleted)
+            {
+                return BadRequest(new ApiResponse<bool> { Success = false, Message = "Xóa công việc thất bại" });
+            }
+
+            // Invalidate cache trên tất cả scope vì trạng thái hiển thị thay đổi
+            for (int i = 1; i <= 10; i++)
+            {
+                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
+            }
+
+            return Ok(new ApiResponse<bool> { Success = true, Message = "Xóa công việc thành công", Data = true });
+        }
+
         [HttpPatch("{id}/publish")]
-        [Authorize(Roles = "recruiter")]
+        [Authorize(Roles = "recruiter,admin")]
         public async Task<ActionResult<ApiResponse<bool>>> PublishJob(string id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -178,7 +323,9 @@ namespace API.Controllers
                 });
             }
 
-            if (job.CreatedBy != userId)
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            // Recruiter chỉ được publish job mình tạo
+            if (role == "recruiter" && job.CreatedBy != userId)
             {
                 return Forbid();
             }
@@ -188,9 +335,12 @@ namespace API.Controllers
 
             await _jobRepository.UpdateAsync(id, job);
 
+            // Invalidate cache: public có thể nhìn thấy job này sau khi publish
             for (int i = 1; i <= 10; i++)
             {
-                await _cacheService.RemoveAsync($"jobs:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
             }
 
             return Ok(new ApiResponse<bool>
@@ -199,6 +349,38 @@ namespace API.Controllers
                 Message = "Đăng công việc thành công",
                 Data = true
             });
+        }
+
+        [HttpPatch("{id}/unpublish")]
+        [Authorize(Roles = "recruiter,admin")]
+        public async Task<ActionResult<ApiResponse<bool>>> UnpublishJob(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var job = await _jobRepository.GetByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ApiResponse<bool> { Success = false, Message = "Không tìm thấy công việc" });
+            }
+            // Recruiter chỉ được gỡ đăng job của chính mình
+            if (role == "recruiter" && job.CreatedBy != userId)
+            {
+                return Forbid();
+            }
+
+            job.Status = "draft";
+            job.UpdatedAt = DateTime.UtcNow;
+            await _jobRepository.UpdateAsync(id, job);
+
+            // Invalidate cache: public không còn thấy job này
+            for (int i = 1; i <= 10; i++)
+            {
+                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
+                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
+            }
+
+            return Ok(new ApiResponse<bool> { Success = true, Message = "Gỡ đăng công việc thành công", Data = true });
         }
 
         [HttpPost("search")]

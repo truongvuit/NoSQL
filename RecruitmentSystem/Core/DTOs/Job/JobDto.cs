@@ -94,4 +94,23 @@ namespace Core.DTOs.Job
         public string Status { get; set; }
         public string Note { get; set; }
     }
+
+    public class UpdateJobRequest
+    {
+        public string? Title { get; set; }
+        public SalaryDto? Salary { get; set; }
+        public string? Experience { get; set; }
+        public string? Education { get; set; }
+        public string? EmploymentType { get; set; }
+        public string? WorkMode { get; set; }
+        public List<string>? Skills { get; set; }
+        public List<string>? Categories { get; set; }
+        public string? JobDetails { get; set; }
+        public string? Requirements { get; set; }
+        public string? Benefits { get; set; }
+        public WorkplaceDto? Workplace { get; set; }
+        public int? Vacancies { get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
+    }
 }

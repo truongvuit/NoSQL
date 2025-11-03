@@ -40,6 +40,67 @@ namespace Infrastructure.Repositories
                 .CountDocumentsAsync();
         }
 
+        public async Task<List<Job>> GetAllVisibleAsync(string? userId, string? role, int page, int pageSize)
+        {
+            var builder = Builders<Job>.Filter;
+            var filters = new List<FilterDefinition<Job>> { builder.Eq(j => j.DeletedAt, null) };
+
+            if (role == "admin")
+            {
+                // no additional filter
+            }
+            else if (role == "recruiter")
+            {
+                // published or own drafts
+                var published = builder.Eq(j => j.Status, "published");
+                var ownDrafts = builder.And(
+                    builder.Ne(j => j.Status, "published"),
+                    builder.Eq(j => j.CreatedBy, userId)
+                );
+                filters.Add(builder.Or(published, ownDrafts));
+            }
+            else
+            {
+                // public view: only published
+                filters.Add(builder.Eq(j => j.Status, "published"));
+            }
+
+            var filter = builder.And(filters);
+
+            return await _context.Jobs
+                .Find(filter)
+                .SortByDescending(j => j.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<long> CountAllVisibleAsync(string? userId, string? role)
+        {
+            var builder = Builders<Job>.Filter;
+            var filters = new List<FilterDefinition<Job>> { builder.Eq(j => j.DeletedAt, null) };
+
+            if (role == "admin")
+            {
+            }
+            else if (role == "recruiter")
+            {
+                var published = builder.Eq(j => j.Status, "published");
+                var ownDrafts = builder.And(
+                    builder.Ne(j => j.Status, "published"),
+                    builder.Eq(j => j.CreatedBy, userId)
+                );
+                filters.Add(builder.Or(published, ownDrafts));
+            }
+            else
+            {
+                filters.Add(builder.Eq(j => j.Status, "published"));
+            }
+
+            var filter = builder.And(filters);
+            return await _context.Jobs.Find(filter).CountDocumentsAsync();
+        }
+
         public async Task<Job> CreateAsync(Job job)
         {
             await _context.Jobs.InsertOneAsync(job);

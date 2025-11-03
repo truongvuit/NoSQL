@@ -12,6 +12,8 @@ namespace Core.Interfaces
         Task<Job> GetByIdAsync(string id);
         Task<List<Job>> GetAllAsync(int page, int pageSize);
         Task<long> CountAllAsync();
+        Task<List<Job>> GetAllVisibleAsync(string? userId, string? role, int page, int pageSize);
+        Task<long> CountAllVisibleAsync(string? userId, string? role);
         Task<Job> CreateAsync(Job job);
         Task<bool> UpdateAsync(string id, Job job);
         Task<bool> DeleteAsync(string id);

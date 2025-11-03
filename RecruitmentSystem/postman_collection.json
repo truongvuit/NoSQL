@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Recruitment System API - Complete",
+    "name": "Recruitment System API",
     "description": "Complete API collection for Recruitment System testing with all endpoints",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "version": "2.0.0"
@@ -484,7 +484,7 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "if (pm.response.code === 200) {",
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.data && jsonData.data.id) {",
                   "        pm.collectionVariables.set(\"jobId\", jsonData.data.id);",
@@ -518,6 +518,56 @@
               "path": ["api", "jobs"]
             },
             "description": "Create a new job posting (Recruiter only)"
+          }
+        },
+        {
+          "name": "Update Job (Recruiter/Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Senior Backend Developer - Updated\",\n  \"workMode\": \"Remote\",\n  \"vacancies\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/{{jobId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "{{jobId}}"]
+            },
+            "description": "Update a job posting; recruiter can update own; admin can update any"
+          }
+        },
+        {
+          "name": "Unpublish Job",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/{{jobId}}/unpublish",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "{{jobId}}", "unpublish"]
+            },
+            "description": "Set job status back to draft"
+          }
+        },
+        {
+          "name": "Delete Job (Recruiter/Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/jobs/{{jobId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "jobs", "{{jobId}}"]
+            },
+            "description": "Soft delete a job posting"
           }
         },
         {
