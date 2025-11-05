@@ -9,12 +9,13 @@ namespace Infrastructure.Services
     public class RedisCacheService : ICacheService
     {
         private readonly IDatabase _database;
+        private readonly IConnectionMultiplexer _connection;
         private readonly string _instanceName;
 
         public RedisCacheService(IOptions<RedisSettings> settings)
         {
-            var connection = ConnectionMultiplexer.Connect(settings.Value.ConnectionString);
-            _database = connection.GetDatabase();
+            _connection = ConnectionMultiplexer.Connect(settings.Value.ConnectionString);
+            _database = _connection.GetDatabase();
             _instanceName = settings.Value.InstanceName;
         }
 
@@ -36,6 +37,18 @@ namespace Infrastructure.Services
         public async Task<bool> RemoveAsync(string key)
         {
             return await _database.KeyDeleteAsync(GetKey(key));
+        }
+
+        public async Task<long> RemoveByPatternAsync(string pattern)
+        {
+            var server = _connection.GetServer(_connection.GetEndPoints().First());
+            var fullPattern = $"{_instanceName}:{pattern}";
+            var keys = server.Keys(pattern: fullPattern).ToArray();
+            
+            if (keys.Length == 0)
+                return 0;
+
+            return await _database.KeyDeleteAsync(keys);
         }
 
         public async Task<long> IncrementAsync(string key, long value = 1)

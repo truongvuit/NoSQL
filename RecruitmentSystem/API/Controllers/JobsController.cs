@@ -187,10 +187,7 @@ namespace API.Controllers
 
             // Invalidate cache: chỉ cần xóa cache theo scope của recruiter tạo job,
             // job ở trạng thái draft nên public/admin chưa bị ảnh hưởng
-            for (int i = 1; i <= 10; i++)
-            {
-                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
-            }
+            await _cacheService.RemoveByPatternAsync($"jobs:recruiter:{userId}:*");
 
             return CreatedAtAction(nameof(GetJobById), new { id = created.Id }, new ApiResponse<Job>
             {
@@ -256,12 +253,9 @@ namespace API.Controllers
             }
 
             // Invalidate cache trên tất cả scope vì nội dung job có thể ảnh hưởng tới public/admin
-            for (int i = 1; i <= 10; i++)
-            {
-                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
-            }
+            await _cacheService.RemoveByPatternAsync("jobs:public:*");
+            await _cacheService.RemoveByPatternAsync("jobs:admin:*");
+            await _cacheService.RemoveByPatternAsync($"jobs:recruiter:{userId}:*");
 
             return Ok(new ApiResponse<Job>
             {
@@ -297,12 +291,9 @@ namespace API.Controllers
             }
 
             // Invalidate cache trên tất cả scope vì trạng thái hiển thị thay đổi
-            for (int i = 1; i <= 10; i++)
-            {
-                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
-            }
+            await _cacheService.RemoveByPatternAsync("jobs:public:*");
+            await _cacheService.RemoveByPatternAsync("jobs:admin:*");
+            await _cacheService.RemoveByPatternAsync($"jobs:recruiter:{userId}:*");
 
             return Ok(new ApiResponse<bool> { Success = true, Message = "Xóa công việc thành công", Data = true });
         }
@@ -336,12 +327,9 @@ namespace API.Controllers
             await _jobRepository.UpdateAsync(id, job);
 
             // Invalidate cache: public có thể nhìn thấy job này sau khi publish
-            for (int i = 1; i <= 10; i++)
-            {
-                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
-            }
+            await _cacheService.RemoveByPatternAsync("jobs:public:*");
+            await _cacheService.RemoveByPatternAsync("jobs:admin:*");
+            await _cacheService.RemoveByPatternAsync($"jobs:recruiter:{userId}:*");
 
             return Ok(new ApiResponse<bool>
             {
@@ -373,12 +361,9 @@ namespace API.Controllers
             await _jobRepository.UpdateAsync(id, job);
 
             // Invalidate cache: public không còn thấy job này
-            for (int i = 1; i <= 10; i++)
-            {
-                await _cacheService.RemoveAsync($"jobs:public:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:admin:page:{i}:size:20");
-                await _cacheService.RemoveAsync($"jobs:recruiter:{userId}:page:{i}:size:20");
-            }
+            await _cacheService.RemoveByPatternAsync("jobs:public:*");
+            await _cacheService.RemoveByPatternAsync("jobs:admin:*");
+            await _cacheService.RemoveByPatternAsync($"jobs:recruiter:{userId}:*");
 
             return Ok(new ApiResponse<bool> { Success = true, Message = "Gỡ đăng công việc thành công", Data = true });
         }
